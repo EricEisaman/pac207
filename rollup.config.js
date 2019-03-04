@@ -19,7 +19,7 @@ export default {
 	},
 	plugins: [
     json(),
-    cleanup(),
+    cleanup({comments: 'none'}),
     css({ output: 'public/bundle.css' }),
 		resolve(), // tells Rollup how to find date-fns in node_modules
 		production && uglify(), // minify, but only in production

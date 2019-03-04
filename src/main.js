@@ -18,7 +18,7 @@ collectible(CS1);
 import './main.css';
 import login from './login';
 import './login.css';
-
+import aframeEffects from './aframe-effects';
 
   
 

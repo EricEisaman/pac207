@@ -23,6 +23,11 @@ ____
 🍎 Collectibiles System
 - Offline collection
 - Online collection (TODO)
+
+🍎 [A-Frame Effects](https://github.com/wizgrav/aframe-effects)
+- bloom
+- glitch
+- godrays
     
     
     
