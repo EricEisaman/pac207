@@ -93,8 +93,9 @@
               collectible="collectSound:https://cdn.glitch.com/630690db-5297-4f44-9d50-b6fb8e795635%2Fpacman_eatfruit.mp3?1551712030046"></a-sphere>
        
     <a-box position="-50 1.7 -5" 
-              shader-frog="name:Marching_Ants_Shader"
-              animation="property: rotation; to: 0 360 0; loop: true; easing: linear; dur: 4500"></a-box>
+           proximity-glitch
+           shader-frog="name:Marching_Ants_Shader"
+           animation="property: rotation; to: 0 360 0; loop: true; easing: linear; dur: 4500"></a-box>
        
     <a-sphere position="-50 1.7 5" 
               radius="0.7" 
@@ -127,7 +128,8 @@
               position="4.5 0 25"
               movement-controls="constrainToNavMesh: true; speed: 0.5"
               player>
-      <a-entity camera
+      <a-entity id="cam"
+                camera
                 position="0 1.6 0"
                 rotation="31.283 -12.834 0"
                 look-controls="pointerLockEnabled:true;reverseTouchDrag:true">

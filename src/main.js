@@ -7,6 +7,7 @@ import grabbable from './grabbable';
 import navpointer from './nav-pointer';
 import player from './player';
 import shaderfrog from './shader-frog';
+import proximityGlitch from './proximity-glitch'
 import hud from './hud';
 import './hud.css';
 hud(CS1);
