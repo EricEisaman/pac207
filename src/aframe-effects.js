@@ -1,3 +1,5 @@
+export default (function aframeEffects(){
+
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -2655,3 +2657,6 @@
 
 /***/ })
 /******/ ]);
+  
+  
+})()

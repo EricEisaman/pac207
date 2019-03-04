@@ -1,5 +1,5 @@
 export default {
- gameName:"The Kingdom of Castle Bridge",
+ gameName:"Pac 207",
  // https://emojipedia.org/  leave as "" if you want no emoji
  emoji:"🏰",
  // https://www141.lunapic.com/editor/  http://icoconvert.com/

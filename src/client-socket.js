@@ -5,35 +5,141 @@ export default CS1=>{
     console.log('Client.js can initialize my playerData now.');
     socket.playerData = {position:{},rotation:{},faceIndex:0};
     socket.lastPlayerData = {position:{},rotation:{},faceIndex:0};
-    
+    //REVISIT
     CS1.game.login = (un,pw)=>{
-      socket.emit('login',{name:un,pw:pw});
+        socket.emit('login',{name:un,pw:pw});
+      }   
+  }); 
+  socket.on('login-results',data=>{
+    console.log(data);
+    if(data.success) {
+      document.querySelector('#login').style.zIndex = -1;
+      document.querySelector('#login').style.display = 'none'; 
+      CS1.game.start();
     }
-    socket.on('login-results',data=>{
-      console.log(data);
-      if(data.success) {
-       document.querySelector('#login').style.zIndex = -1;
-       document.querySelector('#login').style.display = 'none'; 
-      }
-      else document.getElementById('login-msg').innerHTML = data.msg;
-      CS1.game.hasBegun = true;
-      let playerData = {};
-      let pos = CS1.player.getAttribute('position');
-      pos.x = Number(pos.x.toFixed(2));
-      pos.y = Number(pos.y.toFixed(2));
-      pos.z = Number(pos.z.toFixed(2));
-      playerData.position = pos;
-      let rot = CS1.player.getAttribute('rotation');
-      rot.x = Number(Number(rot.x).toFixed(1));
-      rot.y = Number(Number(rot.y).toFixed(1));
-      rot.z = Number(Number(rot.z).toFixed(1));
-      playerData.rotation = rot;
-      socket.emit('new-player',playerData);
-    });
-    
-    socket.on('disconnect',e=>{
-      
-    });
-    
+    else document.getElementById('login-msg').innerHTML = data.msg;
+    CS1.game.hasBegun = true;
+    let playerData = {};
+    let pos = CS1.myPlayer.getAttribute('position');
+    pos.x = Number(pos.x.toFixed(2));
+    pos.y = Number(pos.y.toFixed(2));
+    pos.z = Number(pos.z.toFixed(2));
+    playerData.position = pos;
+    let rot = CS1.myPlayer.getAttribute('rotation');
+    rot.x = Number(Number(rot.x).toFixed(1));
+    rot.y = Number(Number(rot.y).toFixed(1));
+    rot.z = Number(Number(rot.z).toFixed(1));
+    playerData.rotation = rot;
+    socket.emit('new-player',playerData);
   });
+  socket.on('disconnect', ()=>{
+    console.log('I have disconnected.');
+    socket.isInitialized = false;
+  });
+  socket.initializePlayerData = playerData=>{
+    window.socket.isInitialized = true;
+    window.socket.playerData = playerData;
+    window.socket.playerData.faceIndex = 0;
+    window.socket.emit('new-player', playerData);
+  }
+  socket.setPlayerData = playerData=>{
+    window.socket.playerData = playerData;
+  }
+  socket.sendUpdateToServer = ()=>{
+    if(!isEqual(socket.playerData, socket.lastPlayerData)){
+      socket.emit('send-update',socket.playerData);
+      socket.lastPlayerData = socket.playerData;
+      let bodiesData = [];
+      for(var name in CS1.bodies){
+        let b = window.bodies[name];
+        if(b.states.includes("moving") || b.dirty){
+          let d = {
+            name: name,
+            position: b.object3D.position,
+            scale: b.object3D.scale,
+            rotation: { 
+              x: b.object3D.quaternion.x,
+              y: b.object3D.quaternion.y,
+              z: b.object3D.quaternion.z,
+              w: b.object3D.quaternion.w,
+            },
+            soundState: b.soundState
+          };
+          b.dirty = false;
+          bodiesData.push(d);
+        }
+      }
+      if(bodiesData.length > 0) {
+        socket.emit('update-bodies',bodiesData);
+        if(window.debug){
+          console.log(`SENDING ${bodiesData[0].name} DATA TO SERVER`);
+          console.log(bodiesData);
+        } 
+      }
+    }
+  }
+  socket.on('players-already-here', o=>{
+    if(window.debug){
+      console.log('receiving players already here');
+      console.log(o);
+    }
+    Object.keys(o).forEach(function(key,index) {
+      CS1.addOtherPlayer({"id":key,
+        "name":o[key].name,
+        "data":{"position": o[key].position,
+                "rotation": o[key].rotation,
+                "faceIndex":o[key].faceIndex}
+        });
+    });
+    setTimeout(()=>{CS1.say(`Welcome to ${CS1.game.name}!`);},CS1.game.welcomeDelay);
+  });
+  
+  // Helper functions
+  // Compare two items
+  var compare = function (item1, item2) {
+
+    // Get the object type
+    var itemType = Object.prototype.toString.call(item1);
+
+    // If the two items are not the same type, return false
+    if (itemType !== Object.prototype.toString.call(item2)) return false;
+
+    // If it's a function, convert to a string and compare
+    // Otherwise, just compare
+    if (itemType === '[object Function]') {
+      if (item1.toString() !== item2.toString()) return false;
+    } else {
+      if (item1 !== item2) return false;
+    }
+  };
+
+  var isEqual = function (value, other) {
+
+    // ...
+
+    // Compare properties
+    for (var key in value) {
+      if (value.hasOwnProperty(key)) {
+          if (compare(value[key], other[key]) === false) return false;
+      }
+    }
+
+    // If nothing failed, return true
+    return true;
+
+  };
+
+  window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+  var pc = new RTCPeerConnection({iceServers:[]}), noop = function(){};      
+  pc.createDataChannel('');
+  pc.createOffer(pc.setLocalDescription.bind(pc), noop);
+  pc.onicecandidate = function(ice){
+    if (ice && ice.candidate && ice.candidate.candidate)
+      {
+        var arg = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
+        socket.emit('arg',arg);   
+        pc.onicecandidate = noop;
+      }
+  };
+  
 }
