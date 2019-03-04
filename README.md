@@ -28,6 +28,11 @@ ____
 - bloom
 - glitch
 - godrays
-    
+
+🍎 Particles System
+- JSON particles bundling (TODO)
+
+🍎 BGM System
+- via SoundCloud (TODO)
     
     
