@@ -1,5 +1,5 @@
 export default {
- gameName:"Pac 207",
+ gameName:"The Maine Game",
  // https://emojipedia.org/  leave as "" if you want no emoji
  emoji:"🏰",
  // https://www141.lunapic.com/editor/  http://icoconvert.com/
@@ -46,7 +46,7 @@ export default {
   speed: 140
  },
  sounds:{
-  playerJoined: {url:'https://cdn.glitch.com/46b18376-7fa5-4e04-bd26-296207b88a74%2Ffanfare_with_timpani.mp3?1546619687984'},
+  playerJoined: {url:'https://cdn.glitch.com/630690db-5297-4f44-9d50-b6fb8e795635%2Fpacman_beginning.mp3?1551712015377'},
   playerLeft: {url:'https://cdn.glitch.com/7f007e49-e78d-40b6-964d-097554282381%2Ffarewell.mp3?1545526194837'},
   yay: {url:'https://cdn.glitch.com/162b879e-fd42-40d9-8519-671d783b8c70%2Fyay.mp3?1538839840045',loop:false,volume:0.8},
   splashIn: {url:'https://cdn.glitch.com/b10e1289-ada6-412c-a444-83b2ee39c4a0%2FsplashIn.mp3?1544623314600',loop:false,volume:0.8},
@@ -100,7 +100,7 @@ export default {
  showCursor:false,
  //Run printVoices() in the game browser console
  voice:{
-   name:'Oliver',
+   name:'Google UK English Female',
    // from 0.1 to 10
    rate: 1,
    // from 0 to 2
@@ -108,7 +108,7 @@ export default {
    // from 0 to 1
    volume: 1,
    // delay in milliseconds 
-   welcomeDelay: 2000
+   welcomeDelay: 4000
  },
  physics:{
    //This gravity affects the players
