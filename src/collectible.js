@@ -1,6 +1,5 @@
 export default CS1=>{AFRAME.registerComponent("collectible", {
 	schema: {
-		//collectSound: {type: 'selector', default: '#collect-sound'},
     threshold: {type: 'number', default: 2.0},
     collectSound: {type: 'string',default:'https://cdn.glitch.com/630690db-5297-4f44-9d50-b6fb8e795635%2Fcollect.mp3?1551286422648'}
 	},
@@ -30,7 +29,7 @@ export default CS1=>{AFRAME.registerComponent("collectible", {
   }, 
 	tick: function()
 	{   
-     if(this.el.object3D.position.distanceTo(CS1.player.object3D.position) < this.data.threshold){ 
+     if(this.el.object3D.position.distanceTo(CS1.myPlayer.object3D.position) < this.data.threshold){ 
        this.collect();
      }
 		

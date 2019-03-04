@@ -5,6 +5,7 @@ import loadSpinner from './load-spinner';
 import './load-spinner.css';
 import grabbable from './grabbable';
 import navpointer from './nav-pointer';
+import player from './player';
 import shaderfrog from './shader-frog';
 import hud from './hud';
 import './hud.css';
