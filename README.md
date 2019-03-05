@@ -22,7 +22,7 @@ ____
 
 🍎 Collectibiles System
 - Offline collection
-- Online collection (TODO)
+- Online collection
 
 🍎 [A-Frame Effects](https://github.com/wizgrav/aframe-effects)
 - bloom
